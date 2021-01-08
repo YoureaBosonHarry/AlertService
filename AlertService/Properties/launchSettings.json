@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AlertService": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "TASERVICEENDPOINT": "https://localhost:5001"
+      }
+    }
+  }
+}
