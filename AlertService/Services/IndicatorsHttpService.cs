@@ -1,4 +1,4 @@
-﻿using AlertService.HttpService.Interfaces;
+﻿using AlertService.Services.Interfaces;
 using AlertService.Models;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace AlertService.HttpService
+namespace AlertService.Services
 {
     public class IndicatorsHttpService : IIndicatorsHttpService
     {

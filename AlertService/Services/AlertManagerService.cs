@@ -1,4 +1,4 @@
-﻿using AlertService.HttpService.Interfaces;
+﻿using AlertService.Services.Interfaces;
 using AlertService.Models;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace AlertService.HttpService
+namespace AlertService.Services
 {
     class AlertManagerService : IAlertManagerService
     {

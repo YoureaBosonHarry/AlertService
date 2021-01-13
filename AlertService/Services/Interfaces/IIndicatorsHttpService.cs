@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlertService.HttpService.Interfaces
+namespace AlertService.Services.Interfaces
 {
     public interface IIndicatorsHttpService
     {

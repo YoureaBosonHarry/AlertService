@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace AlertService.Services.Interfaces
 {
-    public interface IAlertManagerService
+    public interface IAlertSenderService
     {
-        Task SetTimer();
+        Task SendEmail(string toAddress);
     }
 }
