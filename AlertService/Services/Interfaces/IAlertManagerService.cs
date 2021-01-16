@@ -7,6 +7,6 @@ namespace AlertService.Services.Interfaces
 {
     public interface IAlertManagerService
     {
-        Task SetTimer();
+        void SetTimer(TimeSpan alertTime);
     }
 }
