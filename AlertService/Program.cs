@@ -10,7 +10,7 @@ namespace AlertService
 {
     class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var taServiceEndpoint = Environment.GetEnvironmentVariable("TASERVICEENDPOINT");
             var sendgridApiKey = Environment.GetEnvironmentVariable("SENDGRIDAPIKEY");
@@ -23,10 +23,11 @@ namespace AlertService
                 .AddScoped<IAlertSenderService>(_ => new AlertSenderService(sendgridApiKey, fromAddress, fromName))
                 .BuildServiceProvider();
 
-            var senderService = serviceProvider.GetService<IAlertSenderService>();
-            await senderService.SendEmail("null@yahoo.com");
-            //var alertService = serviceProvider.GetService<IAlertManagerService>();
-            //await alertService.SetTimer();
+            //var senderService = serviceProvider.GetService<IAlertSenderService>();
+            //await senderService.SendEmail("benjamin.rathbone@yahoo.com");
+            var alertService = serviceProvider.GetService<IAlertManagerService>();
+            Console.WriteLine("Starting...");
+            alertService.SetTimer(new TimeSpan(21, 0, 0));
             Task.Delay(-1).Wait();
         }
     }

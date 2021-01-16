@@ -2,29 +2,35 @@
 using AlertService.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Threading;
 
 namespace AlertService.Services
 {
     class AlertManagerService : IAlertManagerService
     {
         private readonly IIndicatorsHttpService indicatorsHttpService;
-        private readonly int waitTime;
+        private System.Threading.Timer timer;
 
         public AlertManagerService(IIndicatorsHttpService indicatorsHttpService)
         {
             this.indicatorsHttpService = indicatorsHttpService;
-            this.waitTime = 1000 * 60 * 60 * 24;
         }
-
-        public async Task SetTimer()
+        
+        public void SetTimer(TimeSpan alertTime)
         {
-            await this.ManageAlerts();
-            var alertCheck = new System.Timers.Timer(this.waitTime);
-            alertCheck.Elapsed += (a, b) => { ManageAlerts().Wait(); };
-            alertCheck.Start();
+            TimeSpan timeRemaining = alertTime - DateTime.UtcNow.TimeOfDay;
+            if (timeRemaining < TimeSpan.Zero)
+            {
+                return;
+            }
+            this.timer = new System.Threading.Timer(async x =>
+            {
+                await this.ManageAlerts();
+            }, null, timeRemaining, Timeout.InfiniteTimeSpan);
         }
 
         private async Task ManageAlerts()
@@ -36,6 +42,11 @@ namespace AlertService.Services
         {
             await this.indicatorsHttpService.InsertDailyRSIAsync();
             var rsiModel = await this.indicatorsHttpService.GetDailyRSIAsync();
+            var rsiOfInterest = rsiModel.Where(i => i.FourteenDayRsi < 30 && i.FourteenDayRsi > 0).OrderBy(j => j.FourteenDayRsi);
+            foreach (var rsi in rsiOfInterest)
+            {
+                Console.WriteLine($"{rsi.Ticker} {rsi.FourteenDayRsi}");
+            }
         }
     }
 }
